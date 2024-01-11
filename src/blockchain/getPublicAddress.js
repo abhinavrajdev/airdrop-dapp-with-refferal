@@ -6,7 +6,6 @@ async function getPublicAddress() {
     const publicAddress = accounts[0]; // Use the first connected account's address
 
     console.log(`Public wallet address: ${publicAddress}`);
-
     window.ethereum.request({
       method: "wallet_addEthereumChain",
       params: [
