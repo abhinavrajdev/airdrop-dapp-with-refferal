@@ -1,3 +1,8 @@
+LIVE : https://65a1659c1e52d9112446c3cf--lambent-dodol-428b5d.netlify.app/ <br/>
+CONTACT : abhinavrajdevcontact@gmail.com <br/>
+PORTFOLIO : https://abhraj.com/  <br/>
+LINKEDIN : https://www.linkedin.com/in/abhinavraj36/  <br/>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
