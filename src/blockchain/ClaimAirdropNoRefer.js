@@ -3,7 +3,7 @@ async function ClaimAirdropNoRefer(reciept, amount) {
   const provider = new window.ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
 
-  const contractAddress = "0x4ed58C3a853c034EcD476cC828f1e9fabcF3AD0f";
+  const contractAddress = "0x222f7007CCFd7cA55b6b422abea80a36017342df";
   const abi = [
     {
       inputs: [
@@ -135,6 +135,7 @@ async function ClaimAirdropNoRefer(reciept, amount) {
       type: "function",
     },
   ];
+
   const feeValue = window.ethers.utils.parseUnits("0.0001", "ether");
   const contract = new window.ethers.Contract(contractAddress, abi, signer);
 

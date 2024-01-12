@@ -3,7 +3,7 @@ async function getTotalClaimed() {
   await provider.send("eth_requestAccounts", []);
 
   // 2. Contract details
-  const contractAddress = "0x4ed58C3a853c034EcD476cC828f1e9fabcF3AD0f";
+  const contractAddress = "0x222f7007CCFd7cA55b6b422abea80a36017342df";
   const abi = [
     {
       inputs: [

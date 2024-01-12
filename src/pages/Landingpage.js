@@ -17,40 +17,16 @@ const Landingpage = () => {
   const [loading, setLoading] = useState(false);
   const { filter } = useParams();
   const [showRefferal, setShowReffferal] = useState(false);
-  const [totalClaimedAmt, set_totalClaimedAmt] = useState(98);
-  const [percentClaimed, set_percentClaimed] = useState(30);
+  const [totalClaimedAmt, set_totalClaimedAmt] = useState(1180000000);
+  const [percentClaimed, set_percentClaimed] = useState(45);
   const [reffEarning, setReffEarning] = useState(0);
   const [hasClaimed, set_hasClaimed] = useState(true);
 
   const TotalAirdropSupply = 4000000000;
 
-  // useEffect(() => {
-  //   async function exc() {
-  //     try {
-  //       /* global BigInt */
-  //       var { _hex } = await getTotalClaimed();
-  //       _hex = _hex.replace("0x0", "");
-  //       if (_hex.length % 2) {
-  //         _hex = "0" + _hex;
-  //       }
-  //       var bn = BigInt("0x" + _hex);
-  //       bn = bn / BigInt(1000000000000000000);
-
-  //       set_totalClaimedAmt(bn);
-  //       set_percentClaimed(Math.floor(bn / TotalAirdropSupply) * BigInt(100));
-
-  //       var d = bn.toString(10);
-  //       console.log();
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }
-  //   exc();
-  // }, []);
-
   const ClaimAirdropClick = async () => {
     console.log("clciked");
-
+    setLoading(true);
     if (filter != null) {
       try {
         await ClaimAirdropRefer(UserAdderss, filter, totalTransactions * 1000);
@@ -68,11 +44,16 @@ const Landingpage = () => {
         console.log(error);
       }
     }
+    const claimSatus = await getClaimStatus(UserAdderss);
+    console.log("Claim Status:  " + claimSatus);
+    set_hasClaimed(claimSatus);
+    setLoading(false);
   };
 
   const handleRefferalClick = () => {
     setShowReffferal(true);
   };
+
   const handleRefferalClickClose = () => {
     setShowReffferal(false);
   };
@@ -109,10 +90,10 @@ const Landingpage = () => {
         console.log(bn);
 
         // Percent Claim
-        // const percentClaim_var = (Number(bn) / TotalAirdropSupply) * 100;
-        // const claim = Math.floor(percentClaim_var);
-        // set_percentClaimed(claim);
-        // console.log(claim);
+        const percentClaim_var = (Number(bn) / TotalAirdropSupply) * 100;
+        const claim = Math.floor(percentClaim_var);
+        set_percentClaimed(claim);
+        console.log(claim);
 
         // Get Reff Earning
         var { _hex } = await getReffEarning(pubAddress);
@@ -139,6 +120,10 @@ const Landingpage = () => {
     }
   };
 
+  const handleDisconnect = () => {
+    setConnecyed(false);
+  };
+
   return (
     <div className="w-screen  flex flex-col bg-black gap-[90px] px-3 lg:px-9 pb-[10px] ">
       <Header
@@ -146,34 +131,28 @@ const Landingpage = () => {
         connectStats={connected}
         connectFunc={handleConnectWallet}
         userAddr={UserAdderss}
+        handleDisconnect={handleDisconnect}
       />
       {/* First Box */}
       <div className="flex justify-center w-screeen bg-black  ">
         {/* border-x-indigo-500 border-y-4 border-y-purple-500 */}
-        <div className="flex flex-col lg:flex-col w-full max-w-[1200px] gap-[200px] items-center  px-9 ">
+        <div className="flex flex-col lg:flex-col w-full max-w-[1200px] gap-[0px] items-center  px-9 ">
           {/* Description Box */}
-          <div className="w-ful lh-screen py-9 px-3  ">
-            <div className="w-full flex flex-col text-white ">
+          <div className="  px-3  ">
+            <div className="w-full h-screen flex flex-col text-white ">
               <h1 className=" text-left font-black tracking-widest text-7xl lg:text-9xl pb-9  ">
                 The Airdrop
               </h1>
               <h1 className=" text-left font-black tracking-widest text-7xl lg:text-9xl pb-9  ">
                 is <span className="text-[#e7e752] ">Live</span>
               </h1>
+              <div className="w-full flex flex-col  items-center"></div>
             </div>
-
-            {/* <p className="text-indigo-500 text-left font-bold ">
-              ZKENS presents a unique opportunity for zksync early users
-              participants to be rewarded with incentives or airdrops during the
-              TGE. Don't miss out on this exciting opportunity to be a part of
-              the cutting-edge technology driving the decentralized web forward.
-              Let's build the ecosystem in the ZKEns together!
-            </p> */}
           </div>
 
           <div className="w-full flex flex-col gap-[50px] text-white ">
             <h1 className=" text-center font-black tracking-  text-3xl lg:text-4xl pb-9  ">
-              Only 400M ZKENS reserved for Airdrop
+              Only 400M MAC reserved for Airdrop
               <div className="h-[20px]"></div>
               <h1 className="text-[#e7e752] ">HURRY UP !!!</h1>
             </h1>
@@ -181,19 +160,30 @@ const Landingpage = () => {
               Automatic referral
               <div className="h-[20px]"></div>
               <span className="text-indigo-400 ">Earnings </span>
+              <div className="h-[20px]"></div>
+              <span className="text-pink-300 ">
+                {" "}
+                !!! No claim required, Auto deposit to wallet !!!{" "}
+              </span>
             </h1>
+
             <h1 className=" text-center font-black tracking-  text-3xl lg:text-4xl pb-9  ">
               My referral earnings
               <div className="h-[20px]"></div>
-              <span className="text-green-400 ">
-                {" "}
-                {reffEarning + " ZKENS"}{" "}
-              </span>
+              <span className="text-green-400 "> {reffEarning + " ZKNS"} </span>
             </h1>
+            <div className="flex justify-center items-center cursor-pointer">
+              <a href="https://abhraj.com/" target="_blank">
+                <h1 className=" text-center text-blue-300 font-black tracking-wide bg-pink-500 px-3 rounded-3xl  text-xl lg:text-xl py-1  ">
+                  Share and Follow on Twitter to earn more rewards...
+                  <div className="h-[20px]"></div>
+                </h1>{" "}
+              </a>
+            </div>
           </div>
 
           {/* Form Box */}
-          <div className="w-full max-w-[600px] rounded-3xl pt-[50px] pb-7 px-3 flex flex-col items-center bg-gradient-to-r from-blue-600 to-violet-600 ">
+          <div className="w-full max-w-[600px] mt-[200px] rounded-3xl pt-[50px] pb-7 px-3 flex flex-col items-center bg-gradient-to-r from-blue-600 to-violet-600 ">
             <h1 className="text-black text-center font-black text-slate-100  tracking-widest text-5xl">
               Claim Airdrop
             </h1>
@@ -218,27 +208,36 @@ const Landingpage = () => {
                 </h1>
               </div>
 
-              {/* {connected && (
+              {connected && (
                 <h1 className="text-white mt-[50px]   pb-2 font-bold tracking-widest w-full">
                   Total Claimable :
                 </h1>
-              )} */}
+              )}
 
-              {/* {connected && (
+              {connected && !hasClaimed && (
                 <div className="w-full rounded-lg py-2 bg-slate-600 px-3 tracking-widest text-white font-black ">
                   <h1 className=" text-center   ">
                     {" "}
-                    {claimableAmount + " ZKNS"}{" "}
+                    {claimableAmount + " MAC"}{" "}
                   </h1>
                 </div>
-              )} */}
+              )}
+              {connected && hasClaimed && (
+                <div className="w-full opacity-50 rounded-lg py-2 bg-slate-600 px-3 tracking-widest text-white font-black ">
+                  <h1 className=" text-center   ">
+                    {" "}
+                    {claimableAmount + " MAC"}{" "}
+                  </h1>
+                </div>
+              )}
 
               {connected && !hasClaimed && (
                 <button
+                  disabled={loading && true}
                   onClick={ClaimAirdropClick}
                   className="w-full rounded-3xl border-2 border-slate-700 py-4  bg-gradient-to-r from-lime-400 to-lime-500 px-3 tracking-widest text-3xl text-black font-black my-9 cursor-pointer "
                 >
-                  Claim
+                  {loading ? "Loading..." : "Claim"}
                 </button>
               )}
 
@@ -295,6 +294,89 @@ const Landingpage = () => {
         </div>
       </div>
 
+      <div className="w-full flex flex-col justify-center items-center">
+        <h1 className="text-white text-center text-xl mt-[50px]  pb-2 font-bold tracking-widest w-full">
+          MACNICA Contract Address
+        </h1>
+        <div className="flex flex-col">
+          <a
+            href="https://goerli.etherscan.io/address/0x9c42095267cc4de848b9b1491b552e3cffd939cd"
+            target="_blank"
+            className="text-blue-500 w-full text-center max-w-[600px]  "
+          >
+            Click to view token contract
+          </a>
+          <a
+            href="https://goerli.etherscan.io/address/0x222f7007ccfd7ca55b6b422abea80a36017342df"
+            target="_blank"
+            className="text-blue-500 w-full text-center max-w-[600px]  "
+          >
+            Click to view airdrop contract
+          </a>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col justify-center items-center">
+        <h1 className="text-white text-center text-xl mt-[]  pb-2 font-bold tracking-widest w-full">
+          About MANICA
+        </h1>
+        <p className="text-slate-500  font-bold w-full text-center max-w-[600px]  ">
+          In the pulsating heart of the cryptosphere, where digital pulses
+          translate into financial fortunes, a new player rises: Manic. More
+          than just another altcoin, Manic seeks to revolutionize the very way
+          we interact with our money. Imagine a world where transactions flow
+          like lightning, unburdened by the clunky chains of traditional
+          finance. Where borders melt away, replaced by a seamless tapestry of
+          instantaneous exchange. This is the future Manic paints, a future
+          fueled by its own electrifying energy.
+        </p>
+      </div>
+
+      <div className="w-full flex flex-col justify-center items-center">
+        <p className="text-yellow-500  font-bold w-full text-center max-w-[600px] mt-9 text-xl ">
+          {" "}
+          Your referral link:{" "}
+        </p>
+        <u>
+          <a
+            href={
+              window.location.href.split("/")[0] +
+              "//" +
+              window.location.href.split("/")[2] +
+              "/airdrop/" +
+              UserAdderss
+            }
+            className="text-blue-500"
+            target="_blank"
+          >
+            <p className="text-sm overflow-scroll text-center">
+              {""}
+              {window.location.href.split("/")[0]}
+              {"//" +
+                window.location.href.split("/")[2] +
+                "/airdrop/" +
+                UserAdderss.substr(0, 9)}
+              {"..."}
+            </p>
+          </a>
+        </u>
+
+        <button
+          onClick={() =>
+            navigator.clipboard.writeText(
+              window.location.href.split("/")[0] +
+                "//" +
+                window.location.href.split("/")[2] +
+                "/airdrop/" +
+                UserAdderss
+            )
+          }
+          className="bg-black text-white text-sm mt-3 tracking-widest font-bold hover:text-yellow-700"
+        >
+          Click to copy
+        </button>
+      </div>
+
       {/* Tokenomics */}
       <div className="flex justify-center w-screeen bg-black ">
         <div className="w-full max-w-[1200px] py-9 gap-[90px] flex flex-col ">
@@ -305,7 +387,7 @@ const Landingpage = () => {
             <div className="w-full lg:w-1/2  ">
               <img
                 className="w-full bg-cover"
-                src="https://i.imgur.com/lfDDSyF.png"
+                src="https://i.imgur.com/BTLpMxk.png"
               />
             </div>
             <div className="w-full lg:w-1/2  flex-end flex justify-between ">
@@ -380,8 +462,15 @@ const Landingpage = () => {
         </div>
       </div>
 
+      <div className="w-full flex flex-col justify-center items-center">
+        <p className="text-slate-500  font-bold w-full text-center max-w-[600px]  ">
+          This project is a part of Abhinav Raj portfolio project, contact me at
+          abhinavrajdevcontact@gmail.com or abhraj.com
+        </p>
+      </div>
+
       {/* Social media Section*/}
-      <div className="w-full flex mt-[100px] justify-center items-center flex flex-col gap-[20px] ">
+      <div className="w-full flex mt-[] justify-center items-center flex flex-col gap-[20px] ">
         <div className="flex  flex-row gap-9">
           <div className="w-[30px] rounded-full bg-white  ">
             <img
@@ -423,14 +512,28 @@ const Landingpage = () => {
                 className="text-blue-500"
                 target="_blank"
               >
-                {" "}
-                {window.location.href.split("/")[0] +
-                  "//" +
-                  window.location.href.split("/")[2] +
-                  "/airdrop/" +
-                  UserAdderss}
+                <p className="text-sm overflow-scroll text-center">
+                  {""}
+                  {window.location.href.split("/")[0]}
+                  {"//" + window.location.href.split("/")[2] + "/airdrop/"}{" "}
+                  {UserAdderss.substr(0, 9)} {"..."}
+                </p>
               </a>
             </u>
+            <button
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  window.location.href.split("/")[0] +
+                    "//" +
+                    window.location.href.split("/")[2] +
+                    "/airdrop/" +
+                    UserAdderss
+                )
+              }
+              className="bg-black text-white text-sm mt-3 tracking-widest font-bold hover:text-yellow-700"
+            >
+              Click to copy
+            </button>
             <button
               onClick={handleRefferalClickClose}
               className="py-2 px-9 text-white bg-red-700 rounded-2xl font-black  w-fit mt-9 "

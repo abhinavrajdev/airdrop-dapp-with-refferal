@@ -6,6 +6,7 @@ async function getPublicAddress() {
     const publicAddress = accounts[0]; // Use the first connected account's address
 
     console.log(`Public wallet address: ${publicAddress}`);
+
     window.ethereum.request({
       method: "wallet_addEthereumChain",
       params: [
@@ -22,6 +23,23 @@ async function getPublicAddress() {
         },
       ],
     });
+
+    // window.ethereum.request({
+    //   method: "wallet_addEthereumChain",
+    //   params: [
+    //     {
+    //       chainId: "0x144",
+    //       rpcUrls: ["https://mainnet.era.zksync.io"],
+    //       chainName: "Goerli test network",
+    //       nativeCurrency: {
+    //         name: "zkSync Era Mainnet",
+    //         symbol: "ETH",
+    //         decimals: 18,
+    //       },
+    //       blockExplorerUrls: ["https://explorer.zksync.io/"],
+    //     },
+    //   ],
+    // });
 
     return publicAddress;
   } catch (error) {

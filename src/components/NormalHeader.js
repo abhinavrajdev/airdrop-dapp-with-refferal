@@ -1,12 +1,6 @@
 import React from "react";
 
-const Header = ({
-  page,
-  connectStats,
-  connectFunc,
-  userAddr,
-  handleDisconnect,
-}) => {
+const NormalHeader = ({ page }) => {
   return (
     <div className="w-full   flex flex-col items-center gap-9">
       <div className="w-full pb-2 pt-9 flex justify-between rounded-b-lg max-w-[1000px]  ">
@@ -16,43 +10,32 @@ const Header = ({
             MANICA
           </h1>
         </div>
-        {!connectStats && (
-          <button
-            onClick={connectFunc}
-            className="bg-[#e7e752] rounded-3xl  font-black px-3 py-1 "
-          >
-            Connect Wallet
-          </button>
-        )}
-        {connectStats && (
-          <button
-            onClick={handleDisconnect}
-            className="bg-red-400 text-xl rounded-3xl opacity-70 font-black px-3 py-1 "
-          >
-            Disconnect
-            <span className="text-sm">
-              {"   "}
-              <span className="text-sm font-base">
-                {" "}
-                {"  " + userAddr.substr(0, 10) + "..."}{" "}
-              </span>
-            </span>
-          </button>
-        )}
       </div>
       <div className="flex justify-center items-center gap-3">
         <button className="font-bold text-slate-400">Home</button>
+
         {page != "airdrop" && (
-          <button className="font-bold text-slate-400">Airdrop</button>
+          <a href="/airdrop">
+            <button className="font-bold text-slate-400">Airdrop</button>
+          </a>
         )}
         {page == "airdrop" && (
           <button className="font-bold text-black py-1 px-3 bg-[#e7e752] rounded-3xl ">
             Airdrop
           </button>
         )}
-        <a href="/farm">
-          <button className="font-bold text-slate-400">Farm</button>
-        </a>
+
+        {page != "farm" && (
+          <a href="farm">
+            <button className="font-bold text-slate-400">Farm</button>
+          </a>
+        )}
+        {page == "farm" && (
+          <button className="font-bold text-black py-1 px-3 bg-[#e7e752] rounded-3xl ">
+            Farm
+          </button>
+        )}
+
         {page != "contact" && (
           <a href="/contactus">
             <button className="font-bold text-slate-400"> Contact Us</button>
@@ -68,4 +51,4 @@ const Header = ({
   );
 };
 
-export default Header;
+export default NormalHeader;
