@@ -170,7 +170,7 @@ const Landingpage = () => {
             <h1 className=" text-center font-black tracking-  text-3xl lg:text-4xl pb-9  ">
               My referral earnings
               <div className="h-[20px]"></div>
-              <span className="text-green-400 "> {reffEarning + " ZKNS"} </span>
+              <span className="text-green-400 "> {reffEarning + " MAC"} </span>
             </h1>
             <div className="flex justify-center items-center cursor-pointer">
               <a href="https://abhraj.com/" target="_blank">
